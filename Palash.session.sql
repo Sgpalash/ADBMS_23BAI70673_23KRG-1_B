@@ -121,6 +121,3 @@ WHERE
 CREATE USER 'SG_user'@'localhost' IDENTIFIED BY '1234';
 GRANT SELECT ON course TO 'SG_user'@'localhost';
 FLUSH PRIVILEGES;
-
-select * from course;
-show databases;
