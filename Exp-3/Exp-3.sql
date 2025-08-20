@@ -22,6 +22,8 @@ DEF: SUB-Query / NESTED Query
         1. WE CAN SQ WITH WHERE CLAUSE STATEMENT
         */
 
+
+use ADBMS;
 SELECT * FROM author;
 
 SELECT * FROM emp;
@@ -125,9 +127,60 @@ SELECT *FROM  FootballParticipants
 SELECT *FROM  HockeyParticipants
 
 
+/*------------------------------------------------Medium LEVEL-------------------------------------------------------------------------------------
+
+How many ways are there to join the tables
 
 
+*/
+
+CREATE TABLE department (
+    id INT PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+
+-- Create Employee Table
+CREATE TABLE employee (
+    id INT,
+    name VARCHAR(50),
+    salary INT,
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES department(id)
+);
 
 
+INSERT INTO department (id, dept_name) VALUES
+(1, 'IT'),
+(2, 'SALES');
+
+INSERT INTO employee (id, name, salary, department_id) VALUES
+(1, 'JOE', 70000, 1),
+(2, 'JIM', 90000, 1),
+(3, 'HENRY', 80000, 2),
+(4, 'SAM', 60000, 2),
+(5, 'MAX', 90000, 1);
 
 
+--1. TO JOIN TABLES
+
+SELECT E.*, D.* FROM Employee as E INNER JOIN department as D ON E.department_id = D.id WHERE (
+    SELECT MAX(salary) from Employee WHERE department_id = E.department_id
+) ORDER BY D.dept_name;
+
+select d.dept_name, e.name, e.salary 
+ from employee e INNER JOIN department d on e.department_id = d.id  where salary in  
+ ( 
+	  	select max(e2.salary) 
+	  	 	from employee e2 group by e2.department_id 
+ )  ORDER BY D.dept_name;
+
+
+CREATE TABLE TABLE_A(EmpID INT(20) PRIMARY KEY, Ename VARCHAR(5), salary int(20));
+
+CREATE TABLE TABLE_B(EmpID INT(20) PRIMARY KEY, Ename VARCHAR(5), salary int(20));
+
+INSERT INTO TABLE_A VALUES(1, "AA", 1000), (2, "BB", 300);
+
+INSERT INTO TABLE_B VALUES(2, "BB", 400), (3, "CC", 100);
+
+SELECT EmpID, Ename, salary from (SELECT * FROM TABLE_A UNION ALL SELECT * FROM TABLE_B) AS RESULT;
