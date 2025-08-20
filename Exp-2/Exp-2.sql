@@ -1,14 +1,11 @@
 use ADBMS;
-
 select * from INFORMATION_SCHEMA.TABLES;
-
 create table emp(
 	empID int primary key,
 	ename varchar(12),
 	dept varchar(12),
 	managerID int
 )
-
 insert into emp values(1, 'Kekai', 'HR', NULL),
 					   (2, 'Laxman', 'Finance', 1),
 					   (3, 'Shakuni', 'IT', 1),
@@ -44,7 +41,7 @@ insert into queries_tbl values(1, 2019), (2, 2008), (3, 2009),
 							  (13, 2019);
 
 -- LEFT JOIN where missing replaced by 0
-select Q.ID as ID, Q.YEAR as YEAR, ISNULL(Y.NPV,0) as NPV 
+select Q.ID as ID, Q.YEAR as YEAR, COALESCE(Y.NPV,0) as NPV 
 	from queries_tbl as Q LEFT OUTER JOIN year_tbl as Y on 
 		Q.YEAR=Y.YEAR AND Q.ID = Y.ID;
 
